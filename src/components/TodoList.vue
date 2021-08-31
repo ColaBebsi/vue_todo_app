@@ -8,37 +8,18 @@
       v-model="newTodo"
       v-on:keyup.enter="addTodo()"
     />
-    <transition-group name="fade" class="animate__fadeInUp animate__fadeOutDown" >
-      <div
-        class="todo-item"
+    <transition-group
+      class="animate__fadeInUp animate__fadeOutDown"
+    >
+      <todo-item
         v-for="(todo, index) in todosFiltered"
         v-bind:key="todo.id"
-      >
-        <div class="todo-item-left">
-          <input type="checkbox" v-model="todo.completed" />
-          <div
-            v-if="!todo.editing"
-            class="todo-item-title"
-            v-on:dblclick="editTodo(todo)"
-            v-bind:class="{ completed: todo.completed }"
-          >
-            {{ todo.title }}
-          </div>
-          <input
-            v-else
-            class="todo-item-edit"
-            type="text"
-            v-model="todo.title"
-            v-on:blur="doneEdit(todo)"
-            v-on:keyup.enter="doneEdit(todo)"
-            v-on:keyup.esc="cancelEdit(todo)"
-            v-focus
-          />
-        </div>
-        <div class="remove-todo-item" v-on:click="removeTodo(index)">
-          &times;
-        </div>
-      </div>
+        v-bind:todoProps="todo"
+        v-bind:indexProps="index"
+        v-bind:checkAllProps="!anyRemaining"
+        v-on:emitDoneEdit="emitDoneEdit"
+        v-on:emitRemoveTodo="removeTodo"
+      />
     </transition-group>
     <div class="extra-container">
       <div>
@@ -86,8 +67,13 @@
 </template>
 
 <script>
+import TodoItem from "./TodoItem.vue";
+
 export default {
   name: "todo-list",
+  components: {
+    TodoItem,
+  },
   data() {
     return {
       newTodo: "",
@@ -110,13 +96,7 @@ export default {
       ],
     };
   },
-  directives: {
-    focus: {
-      inserted: (el) => {
-        el.focus();
-      },
-    },
-  },
+
   computed: {
     todosFiltered() {
       if (this.filter === "all") {
@@ -151,21 +131,24 @@ export default {
 
       this.newTodo = "";
     },
-    editTodo(todo) {
-      this.beforeEditCache = todo.title;
-      todo.editing = true;
-    },
-    doneEdit(todo) {
-      if (todo.title.trim() === "") {
-        todo.title = this.beforeEditCache;
-      }
+    // editTodo(todo) {
+    //   this.beforeEditCache = todo.title;
+    //   todo.editing = true;
+    // },
+    // doneEdit(todo) {
+    //   if (todo.title.trim() === "") {
+    //     todo.title = this.beforeEditCache;
+    //   }
 
-      todo.editing = false;
+    //   todo.editing = false;
+    // },
+    emitDoneEdit(payload) {
+      this.todos.splice(payload.index, 1, payload.todo);
     },
-    cancelEdit(todo) {
-      todo.title = this.beforeEditCache;
-      todo.editing = false;
-    },
+    // cancelEdit(todo) {
+    //   todo.title = this.beforeEditCache;
+    //   todo.editing = false;
+    // },
     removeTodo(index) {
       this.todos.splice(index, 1);
     },

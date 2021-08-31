@@ -83,7 +83,7 @@ export default {
 
       this.editing = false;
 
-      this.$emit("emitDoneEdit", {
+      eventBus.$emit("emitDoneEdit", {
         index: this.indexProps,
         todo: {
           id: this.id,
@@ -98,7 +98,7 @@ export default {
       this.editing = false;
     },
     removeTodo(index) {
-      this.$emit("emitRemoveTodo", index);
+      eventBus.$emit("emitRemoveTodo", index);
     },
   },
 };

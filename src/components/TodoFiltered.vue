@@ -24,19 +24,15 @@
 <script>
 export default {
   name: "todo-filtered",
-  data() {
-    return {
-      filter: "all",
-    };
+  computed: {
+    filter() {
+      return this.$store.state.filter;
+    }
   },
   methods: {
     changeFilter(filter) {
-      this.filter = filter;
-      eventBus.$emit("emitTodosFiltered", filter);
+      this.$store.state.filter = filter
     },
   },
 };
 </script>
-
-<style>
-</style>

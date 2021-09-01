@@ -21,7 +21,7 @@
         v-focus
       />
     </div>
-    <div class="remove-todo-item" v-on:click="removeTodo(indexProps)">
+    <div class="remove-todo-item" v-on:click="removeTodo(todoProps.id)">
       &times;
     </div>
   </div>
@@ -53,13 +53,13 @@ export default {
   },
   watch: {
     checkAllProps() {
-        // if(this.checkAllProps) {
-        //     this.completed = true;
-        // } else {
-        //     this.completed = this.todoProps.completed;
-        // }
+      // if(this.checkAllProps) {
+      //     this.completed = true;
+      // } else {
+      //     this.completed = this.todoProps.completed;
+      // }
 
-        this.completed = this.checkAllProps ? true : this.todoProps.completed;
+      this.completed = this.checkAllProps ? true : this.todoProps.completed;
     },
   },
   data() {
@@ -83,22 +83,35 @@ export default {
 
       this.editing = false;
 
-      eventBus.$emit("emitDoneEdit", {
-        index: this.indexProps,
-        todo: {
-          id: this.id,
-          title: this.title,
-          completed: this.completed,
-          editing: this.editing,
-        },
+      // eventBus.$emit("emitDoneEdit", {
+      //   todo: {
+      //     id: this.id,
+      //     title: this.title,
+      //     completed: this.completed,
+      //     editing: this.editing,
+      //   },
+      // });
+      const index = this.$store.state.todos.findIndex(
+        (item) => item.id === this.id
+      );
+
+      this.$store.state.todos.splice(index, 1, {
+        id: this.id,
+        title: this.title,
+        completed: this.completed,
+        editing: this.editing,
       });
     },
     cancelEdit() {
       this.title = this.beforeEditCache;
       this.editing = false;
     },
-    removeTodo(index) {
-      eventBus.$emit("emitRemoveTodo", index);
+    removeTodo(id) {
+      const index = this.$store.state.todos.findIndex((item) => {
+        return item.id === id;
+      });
+
+      this.$store.state.todos.splice(index, 1);
     },
   },
 };

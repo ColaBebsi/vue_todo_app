@@ -3,7 +3,7 @@
     <label
       ><input
         type="checkbox"
-        v-bind:checked="!anyRemainingProps"
+        v-bind:checked="!anyRemaining"
         v-on:change="checkAllTodos()"
       />Check All</label
     >
@@ -13,15 +13,16 @@
 <script>
 export default {
   name: "todo-check-all",
-  props: {
-    anyRemainingProps: {
-      type: Boolean,
-      required: true,
+  computed: {
+    anyRemaining() {
+      return this.$store.getters.anyRemaining;
     },
   },
   methods: {
     checkAllTodos() {
-      eventBus.$emit("emitCheckAllTodos", this.anyRemainingProps);
+      this.$store.state.todos.forEach(
+        (todo) => (todo.completed = event.target.checked)
+      );
     },
   },
 };

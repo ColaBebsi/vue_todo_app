@@ -1,15 +1,14 @@
 <template>
-  <div>{{ remainingProps }} items left</div>
+  <div>{{ remaining }} items left</div>
 </template>
 
 <script>
 export default {
   name: "todo-items-remaining",
-  props: {
-    remainingProps: {
-      type: Number,
-      required: true,
-    },
-  },
+  computed: {
+    remaining() {
+      return this.$store.getters.remaining;
+    }
+  }
 };
 </script>

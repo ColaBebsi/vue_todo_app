@@ -25,6 +25,8 @@ export default {
       const payload = {
         id: this.$store.state.todoId++,
         title: this.newTodo,
+        completed: false,
+        editing: false
       };
 
       this.$store.dispatch("createTodo", payload);

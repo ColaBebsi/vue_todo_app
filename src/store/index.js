@@ -47,12 +47,7 @@ export default new Vuex.Store({
     },
     mutations: {
         createTodo(state, payload) {
-            state.todos.push({
-                id: payload.id,
-                title: payload.title,
-                completed: false,
-                editing: false,
-            });
+            state.todos.push(payload);
         },
         deleteTodo(state, id) {
             const index = state.todos.findIndex((item) => item.id === id);

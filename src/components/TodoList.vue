@@ -73,25 +73,6 @@ export default {
       ],
     };
   },
-  created() {
-    // eventBus.$on("emitAddTodo", (todo) => this.addTodo(todo));
-    // eventBus.$on("emitDoneEdit", (payload) => this.emitDoneEdit(payload));
-    // eventBus.$on("emitRemoveTodo", (index) => this.removeTodo(index));
-    // eventBus.$on("emitCheckAllTodos", (checked) => this.checkAllTodos(checked));
-    // eventBus.$on(
-    //   "emitTodosFiltered",
-    //   (filter) => (this.$store.state.filter = filter)
-    // );
-    // eventBus.$on("emitClearCompleted", () => this.clearCompleted());
-  },
-  beforeDestroy() {
-    // eventBus.$off("emitAddTodo");
-    // eventBus.$off("emitDoneEdit");
-    // eventBus.$off("emitRemoveTodo");
-    // eventBus.$off("emitCheckAllTodos");
-    // eventBus.$off("emitTodosFiltered");
-    // eventBus.$off("emitClearCompleted");
-  },
   computed: {
     ...mapGetters([
       "todosFiltered",
@@ -99,54 +80,20 @@ export default {
       "anyRemaining",
       "showClearCompletedButton",
     ]),
-
-    /* Does the same as above */
-
-    // todosFiltered() {
-    //   return this.$store.getters.todosFiltered;
-    // },
-    // remaining() {
-    //   return this.$store.getters.remaining;
-    // },
-    // anyRemaining() {
-    //   return this.$store.getters.anyRemaining;
-    // },
-    // showClearCompletedButton() {
-    //   return this.$store.getters.showClearCompletedButton;
-    // },
   },
   methods: {
     addTodo() {
       if (this.newTodo.trim().length === 0) return;
 
-      this.$store.state.todos.push({
+      const payload = {
         id: this.todoId++,
         title: this.newTodo,
-        completed: false,
-      });
+      };
+
+      this.$store.commit("addTodo", payload);
 
       this.newTodo = "";
     },
-    // emitDoneEdit({ todo }) {
-    //   const index = this.$store.state.todos.findIndex((item) => {
-    //     return item.id === todo.id;
-    //   });
-
-    //   this.$store.state.todos.splice(index, 1, todo);
-    // },
-    // removeTodo(index) {
-    //   this.$store.state.todos.splice(index, 1);
-    // },
-    // checkAllTodos() {
-    //   this.$store.state.todos.forEach(
-    //     (todo) => (todo.completed = event.target.checked)
-    //   );
-    // },
-    // clearCompleted() {
-    //   this.$store.state.todos = this.$store.state.todos.filter(
-    //     (todo) => !todo.completed
-    //   );
-    // },
   },
 };
 </script>

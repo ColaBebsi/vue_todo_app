@@ -83,35 +83,21 @@ export default {
 
       this.editing = false;
 
-      // eventBus.$emit("emitDoneEdit", {
-      //   todo: {
-      //     id: this.id,
-      //     title: this.title,
-      //     completed: this.completed,
-      //     editing: this.editing,
-      //   },
-      // });
-      const index = this.$store.state.todos.findIndex(
-        (item) => item.id === this.id
-      );
-
-      this.$store.state.todos.splice(index, 1, {
+      const payload = {
         id: this.id,
         title: this.title,
         completed: this.completed,
         editing: this.editing,
-      });
+      }
+
+      this.$store.commit("doneEdit", payload);
     },
     cancelEdit() {
       this.title = this.beforeEditCache;
       this.editing = false;
     },
     removeTodo(id) {
-      const index = this.$store.state.todos.findIndex((item) => {
-        return item.id === id;
-      });
-
-      this.$store.state.todos.splice(index, 1);
+      this.$store.commit("removeTodo", id)
     },
   },
 };

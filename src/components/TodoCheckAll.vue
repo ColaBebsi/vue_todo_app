@@ -20,11 +20,8 @@ export default {
   },
   methods: {
     checkAllTodos() {
-      this.$store.commit("checkAllTodos");
+      this.$store.dispatch("checkAllTodos");
     },
   },
 };
 </script>
-
-<style>
-</style>

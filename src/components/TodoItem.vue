@@ -35,10 +35,6 @@ export default {
       type: Object,
       required: true,
     },
-    indexProps: {
-      type: Number,
-      required: true,
-    },
     checkAllProps: {
       type: Boolean,
       required: true,
@@ -90,18 +86,15 @@ export default {
         editing: this.editing,
       }
 
-      this.$store.commit("doneEdit", payload);
+      this.$store.dispatch("updateTodo", payload);
     },
     cancelEdit() {
       this.title = this.beforeEditCache;
       this.editing = false;
     },
     removeTodo(id) {
-      this.$store.commit("removeTodo", id)
+      this.$store.dispatch("deleteTodo", id)
     },
   },
 };
 </script>
-
-<style>
-</style>

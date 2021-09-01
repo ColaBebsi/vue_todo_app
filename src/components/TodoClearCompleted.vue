@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     clearCompleted() {
-      this.$store.commit("clearCompleted");
+      this.$store.dispatch("clearCompletedTodos");
     },
   },
 };

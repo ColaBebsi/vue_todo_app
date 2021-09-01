@@ -20,7 +20,15 @@ export default {
   },
   methods: {
     addTodo() {
-      eventBus.$emit("emitAddTodo", this.newTodo);
+      if (this.newTodo.trim().length === 0) return;
+
+      const payload = {
+        id: this.$store.state.todoId++,
+        title: this.newTodo,
+      };
+
+      this.$store.dispatch("createTodo", payload);
+
       this.newTodo = "";
     },
   },

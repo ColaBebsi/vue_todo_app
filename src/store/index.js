@@ -5,6 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
+        title: 'todos',
         filter: 'all',
         todoId: 3,
         todos: [
@@ -45,7 +46,7 @@ export default new Vuex.Store({
         },
     },
     mutations: {
-        addTodo(state, payload) {
+        createTodo(state, payload) {
             state.todos.push({
                 id: payload.id,
                 title: payload.title,
@@ -53,11 +54,11 @@ export default new Vuex.Store({
                 editing: false,
             });
         },
-        removeTodo(state, id) {
+        deleteTodo(state, id) {
             const index = state.todos.findIndex((item) => item.id === id);
             state.todos.splice(index, 1);
         },
-        doneEdit(state, payload) {
+        updateTodo(state, payload) {
             const index = state.todos.findIndex(
                 (item) => item.id === payload.id
             );
@@ -69,13 +70,44 @@ export default new Vuex.Store({
                 (todo) => (todo.completed = event.target.checked)
             );
         },
-        changeFilter(state, filter) {
+        filterTodo(state, filter) {
             state.filter = filter;
         },
-        clearCompleted(state) {
+        clearCompletedTodos(state) {
             state.todos = state.todos.filter((todo) => !todo.completed);
         },
     },
-    actions: {},
+    actions: {
+        createTodo(context, payload) {
+            setTimeout(() => {
+                context.commit('createTodo', payload);
+            }, 444);
+        },
+        deleteTodo(context, id) {
+            setTimeout(() => {
+                context.commit('deleteTodo', id);
+            }, 444);
+        },
+        updateTodo(context, payload) {
+            setTimeout(() => {
+                context.commit('updateTodo', payload);
+            }, 444);
+        },
+        checkAllTodos(context) {
+            setTimeout(() => {
+                context.commit('checkAllTodos');
+            }, 444);
+        },
+        filterTodo(context, filter) {
+            setTimeout(() => {
+                context.commit('filterTodo', filter);
+            }, 444);
+        },
+        clearCompletedTodos(context) {
+            setTimeout(() => {
+                context.commit('clearCompletedTodos');
+            }, 444);
+        },
+    },
     modules: {},
 });

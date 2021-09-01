@@ -1,19 +1,12 @@
 <template>
   <div>
-    <todo-header v-bind:titleProps="title"></todo-header>
-    <input
-      type="text"
-      class="todo-input"
-      placeholder="What needs to be done?"
-      v-model="newTodo"
-      v-on:keyup.enter="addTodo()"
-    />
+    <todo-header></todo-header>
+    <todo-input></todo-input>
     <transition-group class="animate__fadeInUp animate__fadeOutDown">
       <todo-item
-        v-for="(todo, index) in todosFiltered"
+        v-for="todo in todosFiltered"
         v-bind:key="todo.id"
         v-bind:todoProps="todo"
-        v-bind:indexProps="index"
         v-bind:checkAllProps="!anyRemaining"
       />
     </transition-group>
@@ -32,7 +25,7 @@
 import { mapGetters } from "vuex";
 
 import TodoHeader from "./TodoHeader.vue";
-// import TodoInput from "./TodoInput.vue";
+import TodoInput from "./TodoInput.vue";
 import TodoItem from "./TodoItem.vue";
 import TodoCheckAll from "./TodoCheckAll.vue";
 import TodoItemsRemaining from "./TodoItemsRemaining.vue";
@@ -43,35 +36,12 @@ export default {
   name: "todo-list",
   components: {
     TodoHeader,
-    // TodoInput,
+    TodoInput,
     TodoItem,
     TodoCheckAll,
     TodoItemsRemaining,
     TodoFiltered,
     TodoClearCompleted,
-  },
-  data() {
-    return {
-      title: "todos",
-      newTodo: "",
-      beforeEditCache: "",
-      filter: "all",
-      todoId: 3,
-      todos: [
-        {
-          id: 1,
-          title: "Todo item 1",
-          completed: false,
-          editing: false,
-        },
-        {
-          id: 2,
-          title: "Yeeet",
-          completed: false,
-          editing: false,
-        },
-      ],
-    };
   },
   computed: {
     ...mapGetters([
@@ -80,20 +50,6 @@ export default {
       "anyRemaining",
       "showClearCompletedButton",
     ]),
-  },
-  methods: {
-    addTodo() {
-      if (this.newTodo.trim().length === 0) return;
-
-      const payload = {
-        id: this.todoId++,
-        title: this.newTodo,
-      };
-
-      this.$store.commit("addTodo", payload);
-
-      this.newTodo = "";
-    },
   },
 };
 </script>

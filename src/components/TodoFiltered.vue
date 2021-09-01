@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     changeFilter(filter) {
-      this.$store.commit("changeFilter", filter)
+      this.$store.dispatch("filterTodo", filter)
     },
   },
 };

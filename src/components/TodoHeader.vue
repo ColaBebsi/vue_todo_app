@@ -1,17 +1,16 @@
 <template>
-    <h2 class="todo-header">{{ titleProps }}</h2>
+  <h2 class="todo-header">{{ title }}</h2>
 </template>
 
 <script>
 export default {
-    name: "todo-header", 
-    props: {
-        titleProps: {
-            type: String,
-            required: true
-        }
-    }
-}
+  name: "todo-header",
+  computed: {
+    title() {
+      return this.$store.state.title;
+    },
+  },
+};
 </script>
 
 <style>
